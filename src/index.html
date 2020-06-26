@@ -42,9 +42,12 @@
       display: grid;
       grid-gap: 10px;
       grid-template-columns: repeat(auto-fit, 200px);
-      /*grid-auto-columns: 200px;*/
-
     }
+
+    .animator {
+      transition: 200ms ease-in-out;
+    }
+
     .box {
       height: 200px;
       width: 200px;
@@ -81,9 +84,10 @@
   let session = {};
   viewport.addEventListener('mousedown', event => {
     isDragging = true;
-    session.oldX = event.pageX
-    // console.log(event);
-    // event.buttons
+    session.oldX = event.pageX;
+
+    slider.classList.remove('animator')
+
   })
 
   document.addEventListener('mousemove', event => {
@@ -113,12 +117,20 @@
     const size = boxWidth + boxSpace;
     const halfSize = size / 2;
 
-    const currentBox = Math.floor(Math.abs(currentOffset / size));
-    const offsetToNextBox = Math.abs(currentOffset % size);
+    let offsetToNextBox = Math.abs(currentOffset % size);
+    let currentBox = Math.floor(Math.abs(currentOffset / size));
+    let rawCurrentBox = Math.floor(currentOffset/size);
+    console.log({rawCurrentBox});
+    if (rawCurrentBox >= 0) {
+      currentBox = 0
+      offsetToNextBox = 0;
+    } else if (currentBox >= boxesCount - 1) {
+      currentBox = boxesCount - 1
+      offsetToNextBox = 0;
+    }
 
     console.log({currentBox, offsetToNextBox});
 
-    debugger;
     if (offsetToNextBox > halfSize) {
       currentOffset = (currentBox + 1) * size;
     } else {
@@ -126,9 +138,8 @@
     }
 
     currentOffset = -currentOffset;
-
     slider.style.transform = `translateX(${currentOffset}px)`;
-    // console.log(event);
+    slider.classList.add('animator')
   })
 
 
