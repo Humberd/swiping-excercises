@@ -4,10 +4,58 @@
   <meta charset="utf-8">
   <title>GesturesPlayground</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <link
+    rel="icon"
+    type="image/x-icon"
+    href="favicon.ico"
+  >
+  <link
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+    crossorigin="anonymous"
+  >
+  <style>
+    body {
+      height: 100vh;
+      width: 100%;
+      padding-top: 50px;
+    }
+    .viewport {
+      height: 200px;
+      width: 200px;
+      margin: auto;
+      overflow: hidden;
+
+      display: flex;
+      justify-content: normal;
+    }
+    .box {
+      height: 200px;
+      width: 200px;
+      min-width: 200px;
+      border: 1px solid black;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
+<div class="viewport">
+  <div class="box">Left</div>
+  <div class="box">Center</div>
+  <div class="box">Right</div>
+</div>
+
 </body>
+
+<script>
+
+</script>
 </html>
