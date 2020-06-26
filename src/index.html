@@ -26,13 +26,24 @@
       padding-top: 50px;
     }
     .viewport {
-      height: 200px;
-      width: 200px;
+      height: 220px;
+      width: 220px;
+      padding: 10px;
+      border: 1px solid black;
       margin: auto;
       overflow: hidden;
+      position: relative;
+    }
 
-      display: flex;
-      justify-content: normal;
+    .slider {
+      position: absolute;
+      max-width: 9999px;
+
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: repeat(auto-fit, 200px);
+      /*grid-auto-columns: 200px;*/
+
     }
     .box {
       height: 200px;
@@ -43,19 +54,83 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      user-select: none;
     }
   </style>
 </head>
 <body>
-<div class="viewport">
-  <div class="box">Left</div>
-  <div class="box">Center</div>
-  <div class="box">Right</div>
+<div id="viewport" class="viewport">
+  <div id="slider" class="slider">
+    <div class="box">Left</div>
+    <div class="box">Center</div>
+    <div class="box">Right</div>
+  </div>
 </div>
 
 </body>
 
 <script>
+  const viewport = document.getElementById('viewport')
+  const slider = document.getElementById('slider')
+  const boxWidth = 200;
+  const boxSpace = 10;
+  const boxesCount = slider.children.length;
+
+  let isDragging = false;
+  let currentOffset = 0;
+  let session = {};
+  viewport.addEventListener('mousedown', event => {
+    isDragging = true;
+    session.oldX = event.pageX
+    // console.log(event);
+    // event.buttons
+  })
+
+  document.addEventListener('mousemove', event => {
+    if (!isDragging) {
+      return;
+    }
+
+    if (event.pageX < session.oldX) {
+      // left
+    } else if (event.pageX > session.oldX) {
+      // right
+    }
+    const diff = event.pageX - session.oldX;
+    currentOffset += diff;
+
+    slider.style.transform = `translateX(${currentOffset}px)`;
+    session.oldX = event.pageX;
+  })
+
+  document.addEventListener('mouseup', event => {
+    if (!isDragging) {
+      return
+    }
+    isDragging = false
+    session = {};
+
+    const size = boxWidth + boxSpace;
+    const halfSize = size / 2;
+
+    const currentBox = Math.floor(Math.abs(currentOffset / size));
+    const offsetToNextBox = Math.abs(currentOffset % size);
+
+    console.log({currentBox, offsetToNextBox});
+
+    debugger;
+    if (offsetToNextBox > halfSize) {
+      currentOffset = (currentBox + 1) * size;
+    } else {
+      currentOffset = currentBox * size;
+    }
+
+    currentOffset = -currentOffset;
+
+    slider.style.transform = `translateX(${currentOffset}px)`;
+    // console.log(event);
+  })
+
 
 </script>
 </html>
